@@ -1,0 +1,60 @@
+import heapq
+
+class PuzzleState:
+    def __init__(self, board, moves=0, previous=None):
+        self.board = board
+        self.moves = moves
+        self.previous = previous
+        self.empty = board.index(0)
+
+    def __lt__(self, other):
+        return (self.moves + self.heuristic()) < (other.moves + other.heuristic())
+
+    def heuristic(self):
+        # Manhattan distance heuristic
+        distance = 0
+        for i, tile in enumerate(self.board):
+            if tile == 0: 
+                continue
+            x, y = divmod(i, 3)
+            goal_x, goal_y = divmod(tile - 1, 3)
+            distance += abs(x - goal_x) + abs(y - goal_y)
+        return distance
+
+    def neighbors(self):
+        shifts = [(-1,0),(1,0),(0,-1),(0,1)]
+        x, y = divmod(self.empty, 3)
+        for dx, dy in shifts:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < 3 and 0 <= ny < 3:
+                new_empty = nx * 3 + ny
+                new_board = list(self.board)
+                new_board[self.empty], new_board[new_empty] = new_board[new_empty], new_board[self.empty]
+                yield PuzzleState(new_board, self.moves + 1, self)
+
+def solve_puzzle(start, goal):
+    start_state = PuzzleState(start)
+    frontier = []
+    heapq.heappush(frontier, start_state)
+    explored = set()
+
+    while frontier:
+        state = heapq.heappop(frontier)
+        if state.board == goal:
+            path = []
+            while state:
+                path.append(state.board)
+                state = state.previous
+            return path[::-1]
+        explored.add(tuple(state.board))
+        for neighbor in state.neighbors():
+            if tuple(neighbor.board) not in explored:
+                heapq.heappush(frontier, neighbor)
+    return None
+
+# Example usage
+start = [1,2,3,4,0,5,6,7,8]  # 0 represents the empty tile
+goal = [1,2,3,4,5,6,7,8,0]
+solution = solve_puzzle(start, goal)
+for step in solution:
+    print(step)
