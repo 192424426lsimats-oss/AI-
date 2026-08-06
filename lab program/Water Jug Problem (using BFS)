@@ -1,0 +1,35 @@
+from collections import deque
+
+def water_jug_bfs(m, n, d):
+    visited = set()
+    queue = deque()
+    queue.append((0, 0))  # initial state: both jugs empty
+
+    while queue:
+        a, b = queue.popleft()
+        if (a, b) in visited:
+            continue
+        visited.add((a, b))
+
+        print(f"Jug1: {a}, Jug2: {b}")
+
+        if a == d or b == d:
+            print("Reached the goal!")
+            return
+
+        # Possible moves
+        moves = [
+            (m, b),        # Fill Jug1
+            (a, n),        # Fill Jug2
+            (0, b),        # Empty Jug1
+            (a, 0),        # Empty Jug2
+            (a - min(a, n - b), b + min(a, n - b)),  # Pour Jug1 -> Jug2
+            (a + min(b, m - a), b - min(b, m - a))   # Pour Jug2 -> Jug1
+        ]
+
+        for move in moves:
+            if move not in visited:
+                queue.append(move)
+
+# Example usage
+water_jug_bfs(4, 3, 2)  # capacities: 4L and 3L, target: 2L
