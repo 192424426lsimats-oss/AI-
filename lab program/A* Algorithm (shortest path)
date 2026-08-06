@@ -1,0 +1,38 @@
+import heapq
+
+def a_star(graph, start, goal, h):
+    frontier = [(0, start)]
+    came_from = {start: None}
+    g_score = {start: 0}
+
+    while frontier:
+        _, current = heapq.heappop(frontier)
+        if current == goal:
+            path = []
+            while current:
+                path.append(current)
+                current = came_from[current]
+            return path[::-1]
+
+        for neighbor, cost in graph[current]:
+            tentative_g = g_score[current] + cost
+            if neighbor not in g_score or tentative_g < g_score[neighbor]:
+                g_score[neighbor] = tentative_g
+                f_score = tentative_g + h[neighbor]
+                heapq.heappush(frontier, (f_score, neighbor))
+                came_from[neighbor] = current
+    return None
+
+# Example usage
+graph = {
+    'A':[('B',1),('C',3)],
+    'B':[('D',3),('E',1)],
+    'C':[('F',5)],
+    'D':[('G',2)],
+    'E':[('G',1)],
+    'F':[('G',2)],
+    'G':[]
+}
+heuristic = {'A':7,'B':6,'C':5,'D':4,'E':2,'F':1,'G':0}
+path = a_star(graph,'A','G',heuristic)
+print("\nA* Path:", path)
