@@ -1,0 +1,22 @@
+% Planets Database
+% Format:
+% planet(Name, OrderFromSun, Type).
+
+planet(mercury, 1, terrestrial).
+planet(venus, 2, terrestrial).
+planet(earth, 3, terrestrial).
+planet(mars, 4, terrestrial).
+planet(jupiter, 5, gas_giant).
+planet(saturn, 6, gas_giant).
+planet(uranus, 7, ice_giant).
+planet(neptune, 8, ice_giant).
+
+% Find the order of a planet from the Sun
+
+planet_order(Name, Order) :-
+    planet(Name, Order, _).
+
+% Find the type of a planet
+
+planet_type(Name, Type) :-
+    planet(Name, _, Type).
