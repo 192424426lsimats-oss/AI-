@@ -1,0 +1,46 @@
+# Feed Forward Neural Network
+
+from sklearn.neural_network import MLPClassifier
+
+# XOR input data
+X = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+]
+
+# XOR output
+y = [0, 1, 1, 0]
+
+# Create Feed Forward Neural Network
+model = MLPClassifier(
+    hidden_layer_sizes=(4,),
+    activation='relu',
+    solver='lbfgs',
+    max_iter=1000,
+    random_state=42
+)
+
+# Train the neural network
+model.fit(X, y)
+
+# Test data
+test_data = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+]
+
+# Make predictions
+predictions = model.predict(test_data)
+
+print("Feed Forward Neural Network Results:")
+
+for i in range(len(test_data)):
+    print(
+        test_data[i],
+        "->",
+        predictions[i]
+    )
