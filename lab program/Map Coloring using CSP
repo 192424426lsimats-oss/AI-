@@ -1,0 +1,57 @@
+# Map Coloring using CSP
+
+# Map of neighboring regions
+map_graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'C', 'D'],
+    'C': ['A', 'B', 'D'],
+    'D': ['B', 'C']
+}
+
+# Available colors
+colors = ['Red', 'Green', 'Blue']
+
+# Store the color assigned to each region
+assignment = {}
+
+
+def is_safe(region, color):
+    # Check all neighboring regions
+    for neighbor in map_graph[region]:
+        if neighbor in assignment and assignment[neighbor] == color:
+            return False
+    return True
+
+
+def solve_csp():
+    # If all regions are colored, solution is found
+    if len(assignment) == len(map_graph):
+        return True
+
+    # Select an unassigned region
+    for region in map_graph:
+        if region not in assignment:
+            break
+
+    # Try each color
+    for color in colors:
+        if is_safe(region, color):
+            assignment[region] = color
+
+            # Recursively solve the remaining problem
+            if solve_csp():
+                return True
+
+            # Backtrack
+            del assignment[region]
+
+    return False
+
+
+# Solve the problem
+if solve_csp():
+    print("Map Coloring Solution:")
+    for region, color in assignment.items():
+        print(region, "->", color)
+else:
+    print("No solution exists.")
