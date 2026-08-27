@@ -1,0 +1,29 @@
+% Student Database
+% Format: student(StudentName, SubjectCode).
+
+student(ravi, cs101).
+student(ravi, cs102).
+student(priya, cs101).
+student(priya, ma101).
+student(kumar, cs102).
+student(anitha, ma101).
+
+% Teacher Database
+% Format: teacher(TeacherName, SubjectCode).
+
+teacher(john, cs101).
+teacher(robert, cs102).
+teacher(susan, ma101).
+
+% Subject Database
+% Format: subject(SubjectCode, SubjectName).
+
+subject(cs101, programming).
+subject(cs102, database).
+subject(ma101, mathematics).
+
+% Find the teacher for a student's subject
+
+student_teacher(Student, Teacher, SubjectCode) :-
+    student(Student, SubjectCode),
+    teacher(Teacher, SubjectCode).
