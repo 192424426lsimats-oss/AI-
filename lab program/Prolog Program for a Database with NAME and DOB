@@ -1,0 +1,13 @@
+% Person Database
+% Format: person(Name, Day, Month, Year).
+
+person(ravi, 15, 6, 2002).
+person(rajesh, 10, 3, 2001).
+person(priya, 25, 12, 2003).
+person(anitha, 5, 8, 2002).
+person(kumar, 20, 1, 2000).
+
+% Find date of birth of a person
+
+find_dob(Name, Day, Month, Year) :-
+    person(Name, Day, Month, Year).
