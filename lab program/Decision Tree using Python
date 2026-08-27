@@ -1,0 +1,51 @@
+# Decision Tree Implementation
+
+from sklearn.tree import DecisionTreeClassifier
+
+# Input data
+# Weather:
+# 0 = Sunny
+# 1 = Cloudy
+# 2 = Rainy
+
+# Temperature:
+# 0 = Cool
+# 1 = Mild
+# 2 = Hot
+
+X = [
+    [0, 2],
+    [0, 1],
+    [1, 2],
+    [2, 0],
+    [2, 1],
+    [2, 2],
+    [1, 0],
+    [0, 0]
+]
+
+# Output:
+# 0 = Don't Play
+# 1 = Play
+
+y = [0, 0, 1, 1, 1, 0, 1, 0]
+
+# Create Decision Tree model
+model = DecisionTreeClassifier(
+    criterion="entropy",
+    random_state=42
+)
+
+# Train the model
+model.fit(X, y)
+
+# Predict a new sample
+# Example: Cloudy + Hot
+new_data = [[1, 2]]
+
+prediction = model.predict(new_data)
+
+if prediction[0] == 1:
+    print("Prediction: Play")
+else:
+    print("Prediction: Don't Play")
